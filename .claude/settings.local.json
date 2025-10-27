@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wsl bash -c 'cd /mnt/c/Users/ikerm/Desktop/Pruebas\\ BOTTrading/TradingBot_Project && find . -type f -name \"\"*.md\"\" -o -name \"\"*.py\"\" -o -name \"\"*.json\"\" | grep -v \"\"__pycache__\"\" | grep -v \"\".pyc\"\" | sort')",
+      "Bash(wsl bash -c 'cd /mnt/c/Users/ikerm/Desktop/Pruebas\\ BOTTrading/TradingBot_Project && cat .github/copilot-instructions.md')",
+      "Bash(wsl bash -c 'cd /mnt/c/Users/ikerm/Desktop/Pruebas\\ BOTTrading/TradingBot_Project && cat run_backtest.py')",
+      "Bash(wsl bash:*)",
+      "Bash(wsl --shutdown)",
+      "Bash(wsl --terminate Ubuntu)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
