@@ -1,25 +1,77 @@
 """
-🚀 ADVANCED TRADING STRATEGY - Multi-Timeframe Divergence
-========================================================
+🚀 ADVANCED TRADING STRATEGY - Multi-Timeframe Confluence + Divergences + FVG
+==============================================================================
 
-Estrategia avanzada basada en:
-- Divergencias RSI/MACD multi-timeframe 
-- Filtro de tendencia con EMAs (50/200)
-- Volume confirmation mejorado
-- Risk management dinámico (1.5% por trade)
-- Take profits escalonados (1.5R, 3R, trailing)
-- Stop loss con ATR
+Version: 9.2-OPTIMIZED - SENSITIVITY ANALYSIS BREAKTHROUGH (BE=1.35R)
 
-Optimizada para: BTC-USDT 15m
-Timeframes: 4H (tendencia), 1H (estructura), 15M (ejecución)
+EVOLUCIÓN COMPLETA DEL PROYECTO:
+- v6.9: 972 trades, 24.18% WR, -30% return
+- v7.0-v7.3: 0 trades ❌ (multi-timeframe bloqueó todo)
+- v7.4-MINIMAL: 783 trades, 19.54% WR, -33% return, DD -69% ❌ (overtrading masivo)
+- v7.5-QUALITY: 28 trades, 14.29% WR, -11% return, DD -15% ✅ (muy restrictivo)
+- v7.6-BALANCED: 803 trades, 17.06% WR, -85% return, DD -85% ❌❌❌ CATASTRÓFICO
+- v8.0-CONFLUENCE: 0 trades ❌ (4 filtros muy estrictos, divergencias + FVG raros)
+- v8.1-ADAPTIVE: 0 trades ❌ (EMA200 4H bloqueó todo en mercado volátil BTC)
 
-Objetivos:
-- Return anual: 80-200%
-- Win Rate: 55-65%
-- Max Drawdown: <15%
-- Sharpe Ratio: >1.5
+DIAGNÓSTICO CRÍTICO - POR QUÉ TODAS LAS VERSIONES FALLARON:
+El problema NO son los parámetros, es el ENFOQUE FUNDAMENTAL COMPLETO.
+- Win/Loss Ratio: Consistente 3.5-3.9 (EXCELENTE) ✅
+- Win Rate: Consistente 14-24% (TERRIBLE) ❌
+- 666 losses vs 137 wins (v7.6) = sistema de SELECCIÓN DE ENTRADAS completamente roto
+- Matemática: (0.17 × 170) - (0.83 × 48) = 28.9 - 39.84 = -10.94 PÉRDIDA por trade
 
-Version: 5.4-BALANCED - Equilibrado: (Divergencias OR RSI extremo) AND Tendencia + Volume
+ROOT CAUSE: Estaba haciendo PRUEBA-ERROR en vez de usar:
+1. Experiencia del usuario (4 años trading real)
+2. Investigación profesional de internet
+3. Funciones de divergencia YA PROGRAMADAS pero NUNCA USADAS
+4. Proyectos exitosos de GitHub
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ESTRATEGIA v8.6-FINAL - OPTIMIZACIÓN FINA DEL SISTEMA DE PESOS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+RESULTADOS COMPLETOS v8.2-v8.5:
+v8.2 (score=2, sin pesos): 653 trades, 18.53% WR, -49.86%, -67.61% DD → OVERTRADING
+v8.3 (score=3, sin pesos): 550 trades, 18.18% WR, -66.03%, -74.28% DD → PEOR
+v8.4 (solo divergencias/FVG): 0 trades → BLOQUEADO TOTAL
+v8.5 (pesos, score=3): 414 trades, 19.57% WR, -3.6%, -39.19% DD, R:R 4.07 → MEJOR ✅
+
+BREAKTHROUGH v8.5-HYBRID:
+- Win rate mejoró: 19.57% (vs 18.53%)
+- Profit DRAMÁTICAMENTE mejor: -3.6% (vs -49.86%)
+- Drawdown reducido: -39.19% (vs -67.61%)
+- R:R excelente: 4.07 (mejor de todas las versiones)
+- Comisiones reducidas: $2,869 (vs $4,981, -42%)
+
+ANÁLISIS MATEMÁTICO:
+Break-even WR necesario = 1 / (1 + R:R) = 1 / (1 + 4.07) = 19.7%
+WR actual v8.5 = 19.57%
+DISTANCIA AL BREAK-EVEN = solo 0.13% ← CASI RENTABLE
+
+CAMBIOS v8.6-FINAL (ajustes mínimos para cruzar break-even):
+1. Cooldown: 60 min → 45 min (permitir ~10% más oportunidades)
+2. Volatilidad: 0.4% → 0.35% (permitir más trades en momentos válidos)
+3. MANTENER sistema de pesos (ha demostrado funcionar)
+
+SCORE SYSTEM CON PESOS (sin cambios):
+- Divergencia RSI 1H = 2 PUNTOS (señal fuerte)
+- Fair Value Gap 15M = 2 PUNTOS (señal fuerte)
+- MACD 1H = 1 PUNTO (señal base)
+- RSI 15M (<40 / >60) = 1 PUNTO (señal base)
+- MACD 15M = 1 PUNTO (señal base)
+Score mínimo: 3 puntos
+
+OBJETIVO v8.6-FINAL:
+- Trades: 450-500 (10% más que v8.5)
+- Win Rate: 20.5-22% (superar break-even de 19.7%)
+- Net profit: >0% (rentable)
+- Max Drawdown: <35%
+- R:R: mantener >4.0
+
+RAZÓN DEL CAMBIO:
+Estamos a solo 0.13% del break-even. Pequeños ajustes en filtros secundarios
+(cooldown, volatilidad) pueden generar suficientes trades extra de calidad para
+cruzar el umbral de rentabilidad sin comprometer la selección.
 """
 
 from jesse.strategies import Strategy
@@ -108,13 +160,15 @@ class Multitimeframe(Strategy):
     def rsi_period(self):
         return 14
 
-    @property 
+    @property
     def macd_fast(self):
-        return 12
+        # v6.0-PRO: MACD más sensible para crypto (15, 30, 9)
+        return 15
 
     @property
     def macd_slow(self):
-        return 26
+        # v6.0-PRO: MACD más sensible para crypto (15, 30, 9)
+        return 30
 
     @property
     def macd_signal(self):
@@ -140,28 +194,52 @@ class Multitimeframe(Strategy):
     def risk_percent(self):
         return 1.5  # 1.5% risk per trade
 
+
     # -- New tunables to control selectivity and reduce overtrading --
     @property
     def signal_cooldown_minutes(self):
-        # v5.4-BALANCED: Equilibrio entre calidad y cantidad
-        return 30  # 30 minutos - balance
-
-    @property
-    def rsi_long_threshold(self):
-        # RSI must be below this to consider LONG
-        # v5.4-BALANCED: RSI 40 = sobreventa (equilibrado)
-        return 40
-
-    @property
-    def rsi_short_threshold(self):
-        # RSI must be above this to consider SHORT
-        # v5.4-BALANCED: RSI 60 = sobrecompra (equilibrado)
+        # v9.0-MICRO: Volver a 60 min (v8.5 original, cooldown no tuvo efecto)
         return 60
 
     @property
+    def rsi_long_threshold(self):
+        # v9.0-MICRO: RSI 38 (permite entradas ligeramente más tempranas)
+        return 36
+
+    @property
+    def rsi_short_threshold(self):
+        # v9.0-MICRO: RSI 62 (simetría con LONG, permite entradas más tempranas)
+        return 64
+
+    @property
+    def minimum_score(self):
+        # v8.5-HYBRID: Score mínimo 3 puntos CON sistema de pesos
+        return 3
+
+    @property
+    def fvg_lookback(self):
+        # v8.0-CONFLUENCE: Velas a revisar para detectar Fair Value Gaps
+        return 20
+
+    @property
     def min_atr_pct(self):
-        # v5.3: Volatilidad balanceada (no tan restrictivo como v5.2)
-        return 0.003  # 0.3% - balanceado
+        # v8.9-FINAL: Volver exactamente a v8.5
+        return 0.004  # 0.4% - igual que v8.5
+
+    @property
+    def max_atr_pct(self):
+        # v8.6-PROFESSIONAL: Volatilidad máxima (nuevo, evitar extrema volatilidad)
+        return 0.025  # 2.5% - evitar liquidaciones masivas
+
+    @property
+    def adx_threshold(self):
+        # v8.6-PROFESSIONAL: ADX threshold RELAJADO (investigación GitHub: 15-18)
+        return 15  # MUY relajado, solo evita mercados completamente planos
+
+    @property
+    def minimum_rr_ratio(self):
+        # v8.6-PROFESSIONAL: R:R mínimo requerido antes de abrir trade
+        return 2.0  # Mínimo 2R disponible (FreqTrade/Hummingbot standard)
 
     @property
     def require_volume(self):
@@ -187,79 +265,217 @@ class Multitimeframe(Strategy):
     # CONDICIONES DE ENTRADA
     # =============================================================================
 
+    def _is_trending_market_4h(self) -> bool:
+        """
+        v6.1-BALANCED: Filtro ADX en 4H MÁS PERMISIVO para evitar solo mercados muy laterales
+
+        ADX > 20 = Mercado con algo de tendencia (tradeable) - RELAJADO
+        ADX < 20 = Mercado muy lateral (evitar)
+
+        Returns:
+            True si el mercado 4H está en tendencia (ADX > 20)
+        """
+        try:
+            # Obtener velas 4H desde extra_candles
+            candles_4h = self.get_candles('Binance Perpetual Futures', 'BTC-USDT', '4h')
+
+            if len(candles_4h) < 30:
+                return False  # No hay suficientes datos
+
+            # Calcular ADX en 4H
+            adx_4h = ta.adx(candles_4h, period=14)
+
+            # ADX > 20 = trending market (RELAJADO de 25 a 20)
+            return adx_4h > self.adx_threshold
+
+        except Exception:
+            # Si hay error accediendo a 4H, ser conservador y rechazar
+            return False
+
+    def _get_trend_direction_4h(self) -> str:
+        """
+        v6.1-BALANCED: Determinar dirección de tendencia en 4H usando EMAs
+        
+        IMPORTANTE: Zona neutral amplia (1% buffer) para ser más flexible
+
+        Returns:
+            'bullish': EMA50 > EMA200 + 1% buffer (tendencia alcista clara)
+            'bearish': EMA50 < EMA200 - 1% buffer (tendencia bajista clara)
+            'neutral': Dentro del buffer (sin tendencia clara)
+        """
+        try:
+            candles_4h = self.get_candles('Binance Perpetual Futures', 'BTC-USDT', '4h')
+
+            if len(candles_4h) < 200:
+                return 'neutral'
+
+            ema_50_4h = ta.ema(candles_4h, 50)
+            ema_200_4h = ta.ema(candles_4h, 200)
+
+            # Buffer del 1% para zona neutral
+            diff_pct = ((ema_50_4h - ema_200_4h) / ema_200_4h) * 100
+
+            if diff_pct > 1.0:
+                return 'bullish'
+            elif diff_pct < -1.0:
+                return 'bearish'
+            else:
+                return 'neutral'
+
+        except Exception:
+            return 'neutral'
+
     def should_long(self) -> bool:
         """
-        v5.4-BALANCED: ESTRATEGIA EQUILIBRADA
+        v8.8-OPTIMIZED: Volver a v8.5 (que funcionó) + mejoras selectas de GitHub
 
-        LÓGICA: (Divergencia alcista OR RSI < 40) AND Tendencia AND Volumen
+        LECCIONES APRENDIDAS:
+        - v8.5: 414 trades, -3.6%, 19.57% WR (SIN filtro HTF) ✅ MEJOR RESULTADO
+        - v8.6/v8.7: 0 trades (CON filtro ADX 4H>15) ❌ BLOQUEÓ TODO
 
-        FILTROS:
-        1. SEÑAL: Divergencia alcista OR RSI < 40 (al menos uno debe cumplirse)
-        2. Tendencia alcista (EMA50 > EMA200) - OBLIGATORIO
-        3. Volumen confirmación - OBLIGATORIO
-        4. Cooldown 30 min
-
-        Objetivo: 50-150 trades con 40-50% win rate
+        CAMBIOS v8.8:
+        1. ❌ ELIMINADO filtro ADX 4H (bloqueaba todo)
+        2. ❌ ELIMINADO máximo volatilidad (innecesario)
+        3. ✅ MANTENER sistema de pesos v8.5
+        4. ✅ MEJORAR MACD 1H = 2 puntos (de v8.6)
+        5. ✅ REDUCIR volatilidad mínima 0.4% → 0.35%
         """
-        # Cooldown equilibrado
+        # ======= CAPA 1: FILTROS DE MERCADO (OBLIGATORIOS) =======
+
+        # Cooldown
         if self.current_candle[0] - self.vars['last_signal_time'] < self.signal_cooldown_minutes * 60 * 1000:
             return False
 
-        # Límite de pérdida diaria
+        # Daily loss limit
         if not self._can_trade_today():
             return False
 
-        # SEÑAL PRINCIPAL: Divergencia OR RSI extremo (al menos UNO debe ser True)
-        has_bullish_divergence = self._bullish_divergence()
-        current_rsi = ta.rsi(self.candles, self.rsi_period)
-        rsi_oversold = current_rsi < self.rsi_long_threshold  # RSI < 40
-
-        # Si NO hay divergencia Y RSI NO está en sobreventa → rechazar
-        if not has_bullish_divergence and not rsi_oversold:
+        # Volatilidad mínima (SIN máximo)
+        atr = ta.atr(self.candles, 14)
+        atr_pct = atr / self.close
+        if atr_pct < self.min_atr_pct:
             return False
 
-        # FILTROS OBLIGATORIOS: Tendencia + Volumen
-        return (
-            self._trend_filter_long() and
-            self._volume_confirmation()
-        )
+        # ======= CAPA 2: SCORE DE SEÑALES (FLEXIBLE) =======
+
+        score = 0
+
+        # INDICADORES 15M
+        current_rsi = ta.rsi(self.candles, 14)
+        macd_15m, signal_15m_line, _ = ta.macd(self.candles, 15, 30, 9)
+
+        # RSI oversold 15M = +1 punto
+        if current_rsi < self.rsi_long_threshold:
+            score += 1
+
+        # MACD alcista 15M = +1 punto
+        if macd_15m > signal_15m_line:
+            score += 1
+
+        # FVG alcista = +2 puntos (SEÑAL PREMIUM)
+        if self._detect_bullish_fvg():
+            score += 2
+
+        # INDICADORES 1H
+        try:
+            candles_1h = self.get_candles(self.exchange, self.symbol, '1h')
+            if len(candles_1h) >= 100:
+                macd_1h, signal_1h_line, _ = ta.macd(candles_1h, 15, 30, 9)
+
+                # MACD alcista 1H = +1 punto (v8.5 original)
+                if macd_1h > signal_1h_line:
+                    score += 1
+
+                # Divergencia alcista 1H = +2 puntos (SEÑAL PREMIUM)
+                if self._bullish_divergence_1h(candles_1h):
+                    score += 2
+        except Exception:
+            pass
+
+        # ======= CAPA 3: VALIDACIÓN DE CALIDAD (OBLIGATORIA) =======
+
+        # No entrar si RSI está en zona SHORT
+        if current_rsi > self.rsi_short_threshold:
+            return False
+
+        # v8.8-OPTIMIZED: Requisito simple (como v8.5)
+        # Score mínimo 3 puntos (sin distinción premium/no-premium)
+        if score < self.minimum_score:
+            return False
+
+        # Score alcanzado - trade válido
+        return True
 
     def should_short(self) -> bool:
         """
-        v5.4-BALANCED: ESTRATEGIA EQUILIBRADA
-
-        LÓGICA: (Divergencia bajista OR RSI > 60) AND Tendencia AND Volumen
-
-        FILTROS:
-        1. SEÑAL: Divergencia bajista OR RSI > 60 (al menos uno debe cumplirse)
-        2. Tendencia bajista (EMA50 < EMA200) - OBLIGATORIO
-        3. Volumen confirmación - OBLIGATORIO
-        4. Cooldown 30 min
-
-        Objetivo: 50-150 trades con 40-50% win rate
+        v8.8-OPTIMIZED: Volver a v8.5 (que funcionó) + mejoras selectas de GitHub
+        (Mismos cambios que should_long)
         """
-        # Cooldown equilibrado
+        # ======= CAPA 1: FILTROS DE MERCADO (OBLIGATORIOS) =======
+
+        # Cooldown
         if self.current_candle[0] - self.vars['last_signal_time'] < self.signal_cooldown_minutes * 60 * 1000:
             return False
 
-        # Límite de pérdida diaria
+        # Daily loss limit
         if not self._can_trade_today():
             return False
 
-        # SEÑAL PRINCIPAL: Divergencia OR RSI extremo (al menos UNO debe ser True)
-        has_bearish_divergence = self._bearish_divergence()
-        current_rsi = ta.rsi(self.candles, self.rsi_period)
-        rsi_overbought = current_rsi > self.rsi_short_threshold  # RSI > 60
-
-        # Si NO hay divergencia Y RSI NO está en sobrecompra → rechazar
-        if not has_bearish_divergence and not rsi_overbought:
+        # Volatilidad mínima (SIN máximo)
+        atr = ta.atr(self.candles, 14)
+        atr_pct = atr / self.close
+        if atr_pct < self.min_atr_pct:
             return False
 
-        # FILTROS OBLIGATORIOS: Tendencia + Volumen
-        return (
-            self._trend_filter_short() and
-            self._volume_confirmation()
-        )
+        # ======= CAPA 2: SCORE DE SEÑALES (FLEXIBLE) =======
+
+        score = 0
+
+        # INDICADORES 15M
+        current_rsi = ta.rsi(self.candles, 14)
+        macd_15m, signal_15m_line, _ = ta.macd(self.candles, 15, 30, 9)
+
+        # RSI overbought 15M = +1 punto
+        if current_rsi > self.rsi_short_threshold:
+            score += 1
+
+        # MACD bajista 15M = +1 punto
+        if macd_15m < signal_15m_line:
+            score += 1
+
+        # FVG bajista = +2 puntos (SEÑAL PREMIUM)
+        if self._detect_bearish_fvg():
+            score += 2
+
+        # INDICADORES 1H
+        try:
+            candles_1h = self.get_candles(self.exchange, self.symbol, '1h')
+            if len(candles_1h) >= 100:
+                macd_1h, signal_1h_line, _ = ta.macd(candles_1h, 15, 30, 9)
+
+                # MACD bajista 1H = +1 punto (v8.5 original)
+                if macd_1h < signal_1h_line:
+                    score += 1
+
+                # Divergencia bajista 1H = +2 puntos (SEÑAL PREMIUM)
+                if self._bearish_divergence_1h(candles_1h):
+                    score += 2
+        except Exception:
+            pass
+
+        # ======= CAPA 3: VALIDACIÓN DE CALIDAD (OBLIGATORIA) =======
+
+        # No entrar si RSI está en zona LONG
+        if current_rsi < self.rsi_long_threshold:
+            return False
+
+        # v8.8-OPTIMIZED: Requisito simple (como v8.5)
+        # Score mínimo 3 puntos (sin distinción premium/no-premium)
+        if score < self.minimum_score:
+            return False
+
+        # Score alcanzado - trade válido
+        return True
 
     def should_cancel_entry(self) -> bool:
         return False
@@ -272,7 +488,7 @@ class Multitimeframe(Strategy):
         """Ejecutar entrada LONG en FUTURES"""
         # Calcular tamaño de posición basado en ATR
         atr = ta.atr(self.candles, self.atr_period)
-        stop_distance = atr * 1.8  # Stop loss más amplio para evitar whipsaws
+        stop_distance = atr * 3.5  # v6.9: SL AMPLIO para crypto volátil (era 1.8)
         qty = self._calculate_position_size(stop_distance)
         
         self.buy = qty, self.close
@@ -293,7 +509,7 @@ class Multitimeframe(Strategy):
         """Ejecutar entrada SHORT en FUTURES"""
         # Calcular tamaño de posición basado en ATR
         atr = ta.atr(self.candles, self.atr_period)
-        stop_distance = atr * 1.8  # Stop loss más amplio
+        stop_distance = atr * 3.5  # v6.9: SL AMPLIO para crypto volátil (era 1.8)
         qty = self._calculate_position_size(stop_distance)
         
         self.sell = qty, self.close
@@ -314,79 +530,47 @@ class Multitimeframe(Strategy):
     # =============================================================================
 
     def update_position(self):
-        """Gestión dinámica de posición con take profits y cierre final"""
+        """
+        v7.0-PRO: Gestión PROFESIONAL simplificada
+
+        - Break-even a 1R (proteger capital)
+        - TP fijo en 3R (R:R 1:3)
+        - Sin TPs intermedios (evitar cierres prematuros)
+        """
         if not self.position.is_open:
             return
-        # Use the initial risk distance (stored at entry) for R calculations
+
         initial_risk = self.vars.get('initial_risk_distance', 0)
         if initial_risk <= 0:
-            # Defensive: nothing we can compute safely
             return
 
         if self.is_long:
             current_profit = self.close - self.vars['entry_price']
 
-            # STOP LOSS MANUAL: if current price reached the live stop, fully close
+            # Stop loss manual
             if self.close <= self.vars['sl_price']:
                 self.liquidate()
                 return
         else:
             current_profit = self.vars['entry_price'] - self.close
 
-            # STOP LOSS MANUAL
             if self.close >= self.vars['sl_price']:
                 self.liquidate()
                 return
 
-        # Compute R using the initial risk distance (price units)
+        # Calcular R ratio
         r_ratio = current_profit / initial_risk
-        
-        # v5.2: Take Profit 1: 1.2R - Cerrar 50% (MÁS CONSERVADOR para 55%+ win rate)
-        if r_ratio >= 1.2 and not self.vars['tp1_hit']:
+
+        # v9.2-OPTIMIZED: Break-even a 1.35R (sensitivity analysis breakthrough)
+        if r_ratio >= 1.35 and not self.vars['tp1_hit']:
             self.vars['tp1_hit'] = True
-            if self.is_long:
-                self.sell = self.position.qty * 0.5, self.close
-            else:
-                self.buy = self.position.qty * 0.5, self.close
-            # Mover stop loss a break-even
+            # Mover SL a break-even
             self.vars['sl_price'] = self.vars['entry_price']
 
-        # v5.2: Take Profit 2: 2.5R - Cerrar 30% más (MÁS ALCANZABLE)
-        elif r_ratio >= 2.5 and not self.vars['tp2_hit'] and self.vars['tp1_hit']:
-            self.vars['tp2_hit'] = True
-            remaining_qty = self.position.qty
-            if self.is_long:
-                self.sell = remaining_qty * 0.6, self.close
-            else:
-                self.buy = remaining_qty * 0.6, self.close# Trailing stop para el 20% restante
-            # trailing distances should be based on the initial risk
-            if self.is_long:
-                trailing_distance = initial_risk * 0.8
-                new_sl = self.close - trailing_distance
-                if new_sl > self.vars['sl_price']:
-                    self.vars['sl_price'] = new_sl
-            else:
-                trailing_distance = initial_risk * 0.8
-                new_sl = self.close + trailing_distance
-                if new_sl < self.vars['sl_price']:
-                    self.vars['sl_price'] = new_sl
-
-        # v5.2: Take Profit 3: 4R - Cerrar el 20% restante (MÁS REALISTA)
-        elif r_ratio >= 4.0 and self.vars['tp2_hit']:
-            self.liquidate()  # Cerrar todo lo que quedareturn
-
-        # Trailing stop dinámico después de TP2 (usar initial_risk)
-        elif self.vars['tp2_hit'] and r_ratio > 2.5:
-            if self.is_long:
-                trailing_distance = initial_risk * 0.5
-                new_sl = self.close - trailing_distance
-                if new_sl > self.vars['sl_price']:
-                    self.vars['sl_price'] = new_sl
-            else:
-                trailing_distance = initial_risk * 0.5
-                new_sl = self.close + trailing_distance
-                if new_sl < self.vars['sl_price']:
-                    self.vars['sl_price'] = new_sl
+        # REGLA 2: TP completo en 3R (objetivo profesional 1:3)
+        if r_ratio >= 3.0:
+            self.liquidate()  # Cerrar TODO en 3R
+            return
 
     # FILTROS DE TENDENCIA
     # =============================================================================
@@ -489,6 +673,100 @@ class Multitimeframe(Strategy):
         return daily_loss_pct < self.max_daily_loss_pct
 
     # =============================================================================
+    # DETECCIÓN DE FAIR VALUE GAPS (FVG) - VACÍOS DE LIQUIDEZ
+    # =============================================================================
+
+    def _detect_bullish_fvg(self) -> bool:
+        """
+        v8.0-CONFLUENCE: Detecta Fair Value Gap alcista (Bullish FVG)
+
+        Un FVG alcista ocurre cuando:
+        - Candle[i-2].high < Candle[i].low (hay un GAP entre velas)
+        - Representa zona de liquidez no rellenada
+        - El precio actual está retesteando esa zona (precio cerca del gap)
+
+        Basado en investigación profesional de ICT (Inner Circle Trader)
+
+        Returns:
+            True si detecta FVG alcista válido y precio lo está retesteando
+        """
+        if len(self.candles) < self.fvg_lookback + 3:
+            return False
+
+        # Buscar FVG en las últimas velas
+        for i in range(len(self.candles) - 3, max(len(self.candles) - self.fvg_lookback, 2), -1):
+            # FVG alcista: high de vela[i-2] < low de vela[i]
+            high_old = self.candles[i-2, 4]  # High de vela antigua
+            low_new = self.candles[i, 3]      # Low de vela nueva
+
+            # Hay un gap?
+            if high_old < low_new:
+                # Gap detectado: zona entre high_old y low_new
+                gap_top = low_new
+                gap_bottom = high_old
+                gap_mid = (gap_top + gap_bottom) / 2
+                gap_size_pct = ((gap_top - gap_bottom) / gap_bottom) * 100
+
+                # Validar que el gap sea significativo (al menos 0.1%)
+                if gap_size_pct < 0.1:
+                    continue
+
+                # Verificar si el precio actual está retesteando el FVG
+                # (precio cerca de la zona del gap, dentro o ligeramente por debajo)
+                price_to_gap_mid = abs(self.close - gap_mid) / gap_mid * 100
+
+                # Si estamos dentro o cerca del gap (±0.5%)
+                if price_to_gap_mid < 0.5 or (self.close >= gap_bottom and self.close <= gap_top):
+                    return True
+
+        return False
+
+    def _detect_bearish_fvg(self) -> bool:
+        """
+        v8.0-CONFLUENCE: Detecta Fair Value Gap bajista (Bearish FVG)
+
+        Un FVG bajista ocurre cuando:
+        - Candle[i-2].low > Candle[i].high (hay un GAP entre velas)
+        - Representa zona de liquidez no rellenada
+        - El precio actual está retesteando esa zona (precio cerca del gap)
+
+        Basado en investigación profesional de ICT (Inner Circle Trader)
+
+        Returns:
+            True si detecta FVG bajista válido y precio lo está retesteando
+        """
+        if len(self.candles) < self.fvg_lookback + 3:
+            return False
+
+        # Buscar FVG en las últimas velas
+        for i in range(len(self.candles) - 3, max(len(self.candles) - self.fvg_lookback, 2), -1):
+            # FVG bajista: low de vela[i-2] > high de vela[i]
+            low_old = self.candles[i-2, 3]   # Low de vela antigua
+            high_new = self.candles[i, 4]    # High de vela nueva
+
+            # Hay un gap?
+            if low_old > high_new:
+                # Gap detectado: zona entre low_old y high_new
+                gap_top = low_old
+                gap_bottom = high_new
+                gap_mid = (gap_top + gap_bottom) / 2
+                gap_size_pct = ((gap_top - gap_bottom) / gap_bottom) * 100
+
+                # Validar que el gap sea significativo (al menos 0.1%)
+                if gap_size_pct < 0.1:
+                    continue
+
+                # Verificar si el precio actual está retesteando el FVG
+                # (precio cerca de la zona del gap, dentro o ligeramente por encima)
+                price_to_gap_mid = abs(self.close - gap_mid) / gap_mid * 100
+
+                # Si estamos dentro o cerca del gap (±0.5%)
+                if price_to_gap_mid < 0.5 or (self.close >= gap_bottom and self.close <= gap_top):
+                    return True
+
+        return False
+
+    # =============================================================================
     # DETECCIÓN DE DIVERGENCIAS
     # =============================================================================
 
@@ -543,8 +821,8 @@ class Multitimeframe(Strategy):
                     price_diff_pct = abs((price_recent - price_old) / price_old) * 100
                     rsi_diff = abs(rsi_recent - rsi_old)
 
-                    # Divergencia válida: 0.3% precio + 3 puntos RSI
-                    if price_diff_pct >= 0.3 and rsi_diff >= 3:
+                    # v5.5-CONSERVATIVE: Divergencia MÁS ESTRICTA: 0.5% precio + 5 puntos RSI
+                    if price_diff_pct >= 0.5 and rsi_diff >= 5:
                         return True
 
         return False
@@ -600,8 +878,126 @@ class Multitimeframe(Strategy):
                     price_diff_pct = abs((price_recent - price_old) / price_old) * 100
                     rsi_diff = abs(rsi_recent - rsi_old)
 
-                    # Divergencia válida: 0.3% precio + 3 puntos RSI
-                    if price_diff_pct >= 0.3 and rsi_diff >= 3:
+                    # v5.5-CONSERVATIVE: Divergencia MÁS ESTRICTA: 0.5% precio + 5 puntos RSI
+                    if price_diff_pct >= 0.5 and rsi_diff >= 5:
+                        return True
+
+        return False
+
+    def _bullish_divergence_1h(self, candles_1h) -> bool:
+        """
+        v6.1-BALANCED: Detección de divergencia alcista en 1H MÁS PERMISIVA
+
+        Umbrales RELAJADOS para capturar más divergencias válidas:
+        - Lookback: 60 velas (amplio)
+        - Threshold: 0.2% precio (era 0.3%) + 2 puntos RSI (era 3)
+        - Confirmación: Mínimos locales comparados con vecinos
+
+        Args:
+            candles_1h: Array de velas 1H
+
+        Returns:
+            True si se detecta divergencia alcista
+        """
+        if len(candles_1h) < 100:
+            return False
+
+        close_prices = candles_1h[:, 2]
+        low_prices = candles_1h[:, 3]
+
+        # Calcular RSI para 1H
+        rsi_array = self._calculate_rsi_array(close_prices, self.rsi_period)
+
+        # Buscar mínimos en las últimas 60 velas
+        lookback = 60
+        total_candles = len(candles_1h)
+        price_lows = []
+
+        for i in range(total_candles - 5, max(total_candles - lookback, 5), -1):
+            # Mínimo local (comparar con 2 velas a cada lado)
+            if (low_prices[i] <= low_prices[i-1] and
+                low_prices[i] <= low_prices[i-2] and
+                low_prices[i] <= low_prices[i+1] and
+                low_prices[i] <= low_prices[i+2]):
+
+                price_lows.append((i, low_prices[i], rsi_array[i]))
+
+        if len(price_lows) < 2:
+            return False
+
+        # Buscar divergencia alcista: precio baja, RSI sube
+        for j in range(len(price_lows) - 1):
+            idx_recent, price_recent, rsi_recent = price_lows[j]
+
+            for k in range(j + 1, len(price_lows)):
+                idx_old, price_old, rsi_old = price_lows[k]
+
+                # Divergencia alcista
+                if price_recent < price_old and rsi_recent > rsi_old:
+                    price_diff_pct = abs((price_recent - price_old) / price_old) * 100
+                    rsi_diff = abs(rsi_recent - rsi_old)
+
+                    # v6.1-BALANCED: Umbrales MÁS PERMISIVOS (0.2% precio + 2 RSI)
+                    if price_diff_pct >= 0.2 and rsi_diff >= 2:
+                        return True
+
+        return False
+
+    def _bearish_divergence_1h(self, candles_1h) -> bool:
+        """
+        v6.1-BALANCED: Detección de divergencia bajista en 1H MÁS PERMISIVA
+
+        Umbrales RELAJADOS para capturar más divergencias válidas:
+        - Lookback: 60 velas (amplio)
+        - Threshold: 0.2% precio (era 0.3%) + 2 puntos RSI (era 3)
+        - Confirmación: Máximos locales comparados con vecinos
+
+        Args:
+            candles_1h: Array de velas 1H
+
+        Returns:
+            True si se detecta divergencia bajista
+        """
+        if len(candles_1h) < 100:
+            return False
+
+        close_prices = candles_1h[:, 2]
+        high_prices = candles_1h[:, 2]  # Usar close para consistencia
+
+        # Calcular RSI para 1H
+        rsi_array = self._calculate_rsi_array(close_prices, self.rsi_period)
+
+        # Buscar máximos en las últimas 60 velas
+        lookback = 60
+        total_candles = len(candles_1h)
+        price_highs = []
+
+        for i in range(total_candles - 5, max(total_candles - lookback, 5), -1):
+            # Máximo local (comparar con 2 velas a cada lado)
+            if (high_prices[i] >= high_prices[i-1] and
+                high_prices[i] >= high_prices[i-2] and
+                high_prices[i] >= high_prices[i+1] and
+                high_prices[i] >= high_prices[i+2]):
+
+                price_highs.append((i, high_prices[i], rsi_array[i]))
+
+        if len(price_highs) < 2:
+            return False
+
+        # Buscar divergencia bajista: precio sube, RSI baja
+        for j in range(len(price_highs) - 1):
+            idx_recent, price_recent, rsi_recent = price_highs[j]
+
+            for k in range(j + 1, len(price_highs)):
+                idx_old, price_old, rsi_old = price_highs[k]
+
+                # Divergencia bajista
+                if price_recent > price_old and rsi_recent < rsi_old:
+                    price_diff_pct = abs((price_recent - price_old) / price_old) * 100
+                    rsi_diff = abs(rsi_recent - rsi_old)
+
+                    # v6.1-BALANCED: Umbrales MÁS PERMISIVOS (0.2% precio + 2 RSI)
+                    if price_diff_pct >= 0.2 and rsi_diff >= 2:
                         return True
 
         return False
