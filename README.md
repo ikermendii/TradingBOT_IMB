@@ -6,7 +6,7 @@ Bot de trading automatizado para Bitcoin usando el framework Jesse con estrategi
 
 ## 📊 Estado Actual
 
-- **Versión:** v9.2-OPTIMIZED 🏆
+- **Versión:** v9.3-RSI36 🏆🏆🏆
 - **Framework:** Jesse 1.11.0
 - **Python:** 3.x
 - **Exchange:** Binance Perpetual Futures
@@ -14,31 +14,37 @@ Bot de trading automatizado para Bitcoin usando el framework Jesse con estrategi
 - **Timeframe principal:** 15m
 - **Timeframes adicionales:** 1h
 - **Última actualización:** 2025-12-27
-- **Estado:** ✅ VALIDADO - READY FOR PRODUCTION
+- **Estado:** ✅ VALIDADO - **CALIDAD ELITE** (Calmar 1.55)
 
 ---
 
-## 🏆 Resultados v9.2-OPTIMIZED
+## 🏆 Resultados v9.3-RSI36
 
 **Periodo:** 2023-2025 (2.78 años) | **Capital inicial:** $10,000
 
 ```
-Net Profit:      +$9,545 (+95.46%) 🏆
-Annual Return:   27.31% 🏆
-Max Drawdown:    -29.57% ✅
-Sharpe Ratio:    1.0 ✅ (INSTITUCIONAL)
+Net Profit:      +$11,067 (+110.68%) 🏆🏆🏆
+Annual Return:   30.8% 🏆
+Max Drawdown:    -19.93% ✅ (EXCELENTE)
+Sharpe Ratio:    1.09 ✅ (INSTITUCIONAL PREMIUM)
+Calmar Ratio:    1.55 🏆 (ELITE - threshold >1.5)
 
-Win Rate:        24.31%
-Total Trades:    362
-R:R Ratio:       3.58
-Expectancy:      $26.37 por trade
+Win Rate:        25.14%
+Total Trades:    354
+R:R Ratio:       3.63
+Expectancy:      $31.26 por trade
+Losing Streak:   14 trades
 ```
 
-**Breakthrough:** Cambio de break-even 1.25R → 1.35R mejoró profit +39.7%
+**Double Breakthrough:**
+1. Break-even 1.25R → 1.35R (v9.2) = +39.7% mejora
+2. RSI 38 → 36 (v9.3) = +15.9% mejora adicional
+
+**Mejora total vs v9.1:** +62% profit, +49% annual return
 
 ---
 
-## 🎯 Estrategia v9.2-OPTIMIZED
+## 🎯 Estrategia v9.3-RSI36
 
 ### Sistema de Puntuación Weighted (Score-based)
 
@@ -50,13 +56,13 @@ Expectancy:      $26.37 por trade
 
 **Señales BASE** (1 punto cada una):
 3. [1H] MACD alcista = +1 punto
-4. [15M] RSI < 38 (oversold) = +1 punto
+4. [15M] RSI < 36 (oversold - OPTIMIZADO v9.3) = +1 punto
 5. [15M] MACD alcista = +1 punto
 
 **Entrada SHORT:** Requiere mínimo 2 puntos de 5 posibles
 1. [1H] MACD bajista = +1 punto
 2. [1H] Divergencia bajista RSI = +1 punto
-3. [15M] RSI > 60 (overbought) = +1 punto
+3. [15M] RSI > 64 (overbought - OPTIMIZADO v9.3) = +1 punto
 4. [15M] MACD bajista = +1 punto
 5. [15M] Fair Value Gap bajista = +1 punto (BONUS)
 

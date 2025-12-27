@@ -2,7 +2,7 @@
 🚀 ADVANCED TRADING STRATEGY - Multi-Timeframe Confluence + Divergences + FVG
 ==============================================================================
 
-Version: 9.2-OPTIMIZED - SENSITIVITY ANALYSIS BREAKTHROUGH (BE=1.35R)
+Version: 9.3-RSI36 - DOUBLE BREAKTHROUGH (BE=1.35R + RSI=36)
 
 EVOLUCIÓN COMPLETA DEL PROYECTO:
 - v6.9: 972 trades, 24.18% WR, -30% return
@@ -203,12 +203,12 @@ class Multitimeframe(Strategy):
 
     @property
     def rsi_long_threshold(self):
-        # v9.0-MICRO: RSI 38 (permite entradas ligeramente más tempranas)
+        # v9.3-RSI36: RSI 36 (breakthrough #2 - entradas tempranas óptimas)
         return 36
 
     @property
     def rsi_short_threshold(self):
-        # v9.0-MICRO: RSI 62 (simetría con LONG, permite entradas más tempranas)
+        # v9.3-RSI36: RSI 64 (simetría con LONG - entradas tempranas óptimas)
         return 64
 
     @property
