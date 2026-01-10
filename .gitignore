@@ -55,7 +55,23 @@ tmp/
 # Backup files
 *.bak
 *.backup
+*.sensitivity_backup
+*.v*.original
+*.old
+*_backup/
 
 # Credentials (if any)
 credentials.json
 config.secret.py
+
+# Temporary artifacts
+nul
+
+# Archive (opcional - descomentar si no quieres subir historial)
+# archive/
+
+# Notes
+notes/
+
+# Keep examples
+!.env.example

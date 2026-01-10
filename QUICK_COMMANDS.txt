@@ -1,0 +1,117 @@
+================================================================================
+                    COMANDOS RAPIDOS - v9.3-RSI36 Paper Trading
+================================================================================
+
+INICIAR PAPER TRADING:
+----------------------
+Metodo 1 (Facil):
+  - Doble click en: start_paper_trading.bat
+
+Metodo 2 (Manual):
+  cd "C:\Users\ikerm\Desktop\Pruebas BOTTrading\TradingBot_Project"
+  jesse run
+
+Luego abrir navegador en: http://localhost:9000
+
+
+DETENER PAPER TRADING:
+---------------------
+  - En dashboard: Click "Stop Trading"
+  - O en CMD: Ctrl+C
+
+
+MONITORING SEMANAL DE REGIMEN (cada domingo):
+--------------------------------------------
+  cd "C:\Users\ikerm\Desktop\Pruebas BOTTrading\TradingBot_Project"
+  python regime_monitor.py
+
+
+IMPORTAR DATOS NUEVOS (si necesitas actualizar):
+-----------------------------------------------
+  cd "C:\Users\ikerm\Desktop\Pruebas BOTTrading\TradingBot_Project"
+  python import_recent_data.py
+
+
+VERIFICAR CONFIGURACION:
+-----------------------
+  cd "C:\Users\ikerm\Desktop\Pruebas BOTTrading\TradingBot_Project"
+  python verify_setup.py
+
+
+VER VERSION DE JESSE:
+--------------------
+  jesse --version
+
+
+API KEYS DE TESTNET (ya configuradas en .env):
+---------------------------------------------
+  API Key:    DA945RCR2GI6gaGbBvt0bnaOeLfBMEj7EReKQP9imbJBnZWzObTMEAL3fmMG2hHj
+  Secret Key: DK6QKnCnUDMUPwC4pVEkIgvmcxXKlh0cfo8nVPxryjoFzmaC40omVHreEHSkOH9H
+
+
+BINANCE TESTNET:
+---------------
+  URL: https://testnet.binancefuture.com/
+  - Ver ordenes, balance, trades reales del bot
+
+
+JESSE DASHBOARD:
+---------------
+  URL: http://localhost:9000
+  Password (si pide): securepassword123
+  - Tab "Live" para configurar paper trading
+  - Tab "Metrics" para ver resultados
+
+
+CIRCUIT BREAKERS (revisar DIARIAMENTE):
+--------------------------------------
+  Max DD -15%  → Review urgente
+  Max DD -20%  → PAUSE trading
+  Max DD -25%  → STOP definitivo
+  Losing Streak 15 → Review
+  Losing Streak 20 → PAUSE
+
+
+ARCHIVOS IMPORTANTES:
+--------------------
+  START_HERE.md                       ← Instrucciones completas
+  PAPER_TRADING_SETUP.md              ← Guia paso a paso
+  DEPLOYMENT_GUIDE_CONSERVATIVE.md    ← Plan 4 fases
+  PROJECT_STATUS.md                   ← Estado del proyecto
+  CRITICAL_FINDING_2020-2021.md       ← Hallazgo critico
+
+
+PARAMETROS v9.3-RSI36:
+---------------------
+  Break-Even: 1.35R
+  RSI Long:   36
+  RSI Short:  64
+  Take Profit: 3.0R
+  Symbol:     BTC-USDT
+  Timeframe:  15m
+  Exchange:   Binance Perpetual Futures (Testnet)
+
+
+TROUBLESHOOTING:
+---------------
+  Jesse no inicia → Revisar puerto 9000 libre
+  Dashboard no abre → Esperar 30seg, revisar firewall
+  Authentication failed → Regenerar API keys en Binance Testnet
+  No ejecuta trades → NORMAL, espera señales (puede tomar dias)
+  Max DD >-20% → PAUSE inmediatamente, ejecutar regime_monitor.py
+
+
+SOPORTE:
+-------
+  Si tienes problemas:
+  1. Lee START_HERE.md seccion TROUBLESHOOTING
+  2. Lee PAPER_TRADING_SETUP.md
+  3. Contactame con screenshot + ultimas 20 lineas de consola
+
+================================================================================
+                           TODO LISTO PARA INICIAR
+================================================================================
+
+Proximo paso: Doble click en start_paper_trading.bat
+
+Good luck! 🚀

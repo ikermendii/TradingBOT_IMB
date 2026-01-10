@@ -2,7 +2,7 @@
 🚀 ADVANCED TRADING STRATEGY - Multi-Timeframe Confluence + Divergences + FVG
 ==============================================================================
 
-Version: v9.3-RSI36 - MEAN-REVERSION Strategy (High Volatility Optimized)
+Version: v9.3-TRAILING - MEAN-REVERSION + Trailing Stop (Universal Optimizer)
 
 EVOLUCIÓN COMPLETA DEL PROYECTO:
 - v6.9: 972 trades, 24.18% WR, -30% return
@@ -79,7 +79,7 @@ import jesse.indicators as ta
 import numpy as np
 
 
-class Multitimeframe(Strategy):
+class MultitimeframeTrailing(Strategy):
     def __init__(self):
         super().__init__()
         self.vars = {
@@ -98,6 +98,10 @@ class Multitimeframe(Strategy):
             # break-even doesn't zero-out the denominator.
             'initial_risk_distance': 0,
             'trend_strength': 0,
+            # v9.3-TRAILING: Flags for trailing stop behavior
+            'trailing_activated': False,
+            'highest_price': 0,  # Track highest price in LONG
+            'lowest_price': 0,   # Track lowest price in SHORT
         }
 
     # =============================================================================
@@ -490,9 +494,9 @@ class Multitimeframe(Strategy):
         atr = ta.atr(self.candles, self.atr_period)
         stop_distance = atr * 3.5  # v6.9: SL AMPLIO para crypto volátil (era 1.8)
         qty = self._calculate_position_size(stop_distance)
-        
+
         self.buy = qty, self.close
-        
+
         # Registrar entrada
         self.vars['entry_price'] = self.close
         self.vars['sl_price'] = self.close - stop_distance
@@ -501,7 +505,10 @@ class Multitimeframe(Strategy):
         # Store the initial risk distance (price units) to compute R
         self.vars['initial_risk_distance'] = stop_distance
         self.vars['last_signal_time'] = self.current_candle[0]
-        
+        # v9.3-TRAILING: Initialize trailing stop tracking
+        self.vars['trailing_activated'] = False
+        self.vars['highest_price'] = self.close
+
         # Stop loss inicial (soportado en FUTURES)
         self.stop_loss = qty, self.vars['sl_price']
 
@@ -511,9 +518,9 @@ class Multitimeframe(Strategy):
         atr = ta.atr(self.candles, self.atr_period)
         stop_distance = atr * 3.5  # v6.9: SL AMPLIO para crypto volátil (era 1.8)
         qty = self._calculate_position_size(stop_distance)
-        
+
         self.sell = qty, self.close
-        
+
         # Registrar entrada
         self.vars['entry_price'] = self.close
         self.vars['sl_price'] = self.close + stop_distance
@@ -522,7 +529,10 @@ class Multitimeframe(Strategy):
         # Store the initial risk distance (price units) to compute R
         self.vars['initial_risk_distance'] = stop_distance
         self.vars['last_signal_time'] = self.current_candle[0]
-        
+        # v9.3-TRAILING: Initialize trailing stop tracking
+        self.vars['trailing_activated'] = False
+        self.vars['lowest_price'] = self.close
+
         # Stop loss inicial (soportado en FUTURES)
         self.stop_loss = qty, self.vars['sl_price']
 
@@ -531,11 +541,18 @@ class Multitimeframe(Strategy):
 
     def update_position(self):
         """
-        v7.0-PRO: Gestión PROFESIONAL simplificada
+        v9.3-TRAILING: Gestión PROFESIONAL con Trailing Stop
 
-        - Break-even a 1R (proteger capital)
-        - TP fijo en 3R (R:R 1:3)
-        - Sin TPs intermedios (evitar cierres prematuros)
+        CAMBIO CRÍTICO vs v9.3:
+        - Break-even a 1.35R (igual que v9.3) ✅
+        - TRAILING STOP activado a 3.0R (en vez de TP fijo) 🆕
+        - Trailing a 1.5R desde máximo/mínimo (dejar correr profits)
+
+        Lógica:
+        1. <1.35R: SL inicial (stop distance = 3.5 ATR)
+        2. ≥1.35R: SL a break-even (proteger capital)
+        3. ≥3.0R: Activar trailing stop (dejar correr)
+        4. Trailing: SL a 1.5R desde precio extremo
         """
         if not self.position.is_open:
             return
@@ -547,12 +564,20 @@ class Multitimeframe(Strategy):
         if self.is_long:
             current_profit = self.close - self.vars['entry_price']
 
+            # Update highest price seen
+            if self.close > self.vars['highest_price']:
+                self.vars['highest_price'] = self.close
+
             # Stop loss manual
             if self.close <= self.vars['sl_price']:
                 self.liquidate()
                 return
         else:
             current_profit = self.vars['entry_price'] - self.close
+
+            # Update lowest price seen
+            if self.close < self.vars['lowest_price']:
+                self.vars['lowest_price'] = self.close
 
             if self.close >= self.vars['sl_price']:
                 self.liquidate()
@@ -561,16 +586,30 @@ class Multitimeframe(Strategy):
         # Calcular R ratio
         r_ratio = current_profit / initial_risk
 
-        # v9.3-RSI36: Break-even a 1.35R (baseline óptimo validado)
+        # REGLA 1: Break-even a 1.35R (igual que v9.3)
         if r_ratio >= 1.35 and not self.vars['tp1_hit']:
             self.vars['tp1_hit'] = True
             # Mover SL a break-even
             self.vars['sl_price'] = self.vars['entry_price']
 
-        # REGLA 2: TP completo en 3.0R (baseline óptimo v9.3)
-        if r_ratio >= 3.0:
-            self.liquidate()  # Cerrar TODO en 3.0R
-            return
+        # REGLA 2: Activar trailing stop a 3.0R (en vez de TP fijo)
+        if r_ratio >= 3.0 and not self.vars['trailing_activated']:
+            self.vars['trailing_activated'] = True
+
+        # REGLA 3: Si trailing está activo, ajustar SL dinámicamente
+        if self.vars['trailing_activated']:
+            if self.is_long:
+                # Trailing stop a 1.5R desde el máximo alcanzado
+                trailing_sl = self.vars['highest_price'] - (initial_risk * 1.5)
+                # Solo mover SL hacia arriba (nunca bajar)
+                if trailing_sl > self.vars['sl_price']:
+                    self.vars['sl_price'] = trailing_sl
+            else:
+                # Trailing stop a 1.5R desde el mínimo alcanzado
+                trailing_sl = self.vars['lowest_price'] + (initial_risk * 1.5)
+                # Solo mover SL hacia abajo (nunca subir)
+                if trailing_sl < self.vars['sl_price']:
+                    self.vars['sl_price'] = trailing_sl
 
     # FILTROS DE TENDENCIA
     # =============================================================================

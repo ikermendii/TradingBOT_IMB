@@ -22,10 +22,10 @@ for key, value in project_config.config.items():
 
 from jesse.modes import import_candles_mode
 
-# Configuración
-exchange = 'Binance Spot'
+# Configuración para backtest completo
+exchange = 'Binance Perpetual Futures'
 symbol = 'BTC-USDT'
-start_date = '2023-01-01'
+start_date = '2020-01-01'  # Datos completos para backtest multi-regimen
 
 print(f"🚀 Iniciando importación de candles...")
 print(f"   Exchange: {exchange}")

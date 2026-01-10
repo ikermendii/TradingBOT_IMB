@@ -2,7 +2,7 @@
 🚀 ADVANCED TRADING STRATEGY - Multi-Timeframe Confluence + Divergences + FVG
 ==============================================================================
 
-Version: v9.3-RSI36 - MEAN-REVERSION Strategy (High Volatility Optimized)
+Version: 9.1-TP1 - BREAK-EVEN MÁS TARDÍO (1.0R→1.25R)
 
 EVOLUCIÓN COMPLETA DEL PROYECTO:
 - v6.9: 972 trades, 24.18% WR, -30% return
@@ -203,13 +203,13 @@ class Multitimeframe(Strategy):
 
     @property
     def rsi_long_threshold(self):
-        # v9.3-RSI36: RSI 36 (breakthrough #2 - entradas tempranas óptimas)
-        return 36
+        # v9.0-MICRO: RSI 38 (permite entradas ligeramente más tempranas)
+        return 38
 
     @property
     def rsi_short_threshold(self):
-        # v9.3-RSI36: RSI 64 (simetría con LONG - entradas tempranas óptimas)
-        return 64
+        # v9.0-MICRO: RSI 62 (simetría con LONG, permite entradas más tempranas)
+        return 62
 
     @property
     def minimum_score(self):
@@ -561,15 +561,15 @@ class Multitimeframe(Strategy):
         # Calcular R ratio
         r_ratio = current_profit / initial_risk
 
-        # v9.3-RSI36: Break-even a 1.35R (baseline óptimo validado)
-        if r_ratio >= 1.35 and not self.vars['tp1_hit']:
+        # v9.1-TP1: Break-even a 1.25R (dar más espacio antes de proteger)
+        if r_ratio >= 1.25 and not self.vars['tp1_hit']:
             self.vars['tp1_hit'] = True
             # Mover SL a break-even
             self.vars['sl_price'] = self.vars['entry_price']
 
-        # REGLA 2: TP completo en 3.0R (baseline óptimo v9.3)
+        # REGLA 2: TP completo en 3R (objetivo profesional 1:3)
         if r_ratio >= 3.0:
-            self.liquidate()  # Cerrar TODO en 3.0R
+            self.liquidate()  # Cerrar TODO en 3R
             return
 
     # FILTROS DE TENDENCIA
