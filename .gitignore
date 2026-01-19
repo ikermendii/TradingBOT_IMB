@@ -75,3 +75,14 @@ notes/
 
 # Keep examples
 !.env.example
+!config.example.json
+
+# Freqtrade specific
+freqtrade/user_data/
+freqtrade/data/
+freqtrade/*.db
+freqtrade/*.sqlite
+freqtrade/logs/
+
+# Temporary Claude files
+tmpclaude-*-cwd
