@@ -86,3 +86,12 @@ freqtrade/logs/
 
 # Temporary Claude files
 tmpclaude-*-cwd
+.claude/
+
+# Google Cloud SDK (instalación local)
+google-cloud-sdk/
+google-cloud-cli-*.tar.gz
+
+# Archivos temporales de datos
+oracle_trades.json
+**/trades.json
